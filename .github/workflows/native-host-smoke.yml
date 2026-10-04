@@ -1,0 +1,54 @@
+name: Native CanvasTTY appearance
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - frameless/**
+      - tests/native-host-smoke.cjs
+      - .github/workflows/native-host-smoke.yml
+
+permissions:
+  contents: read
+
+jobs:
+  native-host:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: deb
+            runner: ubuntu-24.04
+          - mode: appimage
+            runner: ubuntu-24.04
+          - mode: macos
+            runner: macos-15
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - name: Install test driver
+        working-directory: tests
+        run: npm install --no-save playwright@1.63.0
+      - name: Install Linux desktop dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2t64 libgbm1
+      - name: Verify Linux CanvasTTY release
+        if: runner.os == 'Linux'
+        run: xvfb-run -a node tests/native-host-smoke.cjs '${{ matrix.mode }}'
+      - name: Verify Apple Silicon CanvasTTY release
+        if: runner.os == 'macOS'
+        run: node tests/native-host-smoke.cjs macos
+      - name: Save appearance evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: native-canvastty-${{ matrix.mode }}
+          path: native-host-results/
+          retention-days: 14

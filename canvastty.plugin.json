@@ -1,0 +1,20 @@
+{
+  "apiVersion": 1,
+  "id": "ame-chan-claude",
+  "name": "Ame-chan",
+  "version": "1.0.0",
+  "description": "Living pixel Ame-chan on your CanvasTTY canvas: idles, breathes, dances, scrolls her phone, sips energy drinks and more.",
+  "description.en": "Living pixel Ame-chan on your CanvasTTY canvas: idles, breathes, dances, scrolls her phone, sips energy drinks and more.",
+  "permissions": [],
+  "contributions": [
+    {
+      "id": "ame",
+      "kind": "canvas-app",
+      "title": "Ame-chan",
+      "description": "Animated Ame-chan",
+      "entry": "index.html",
+      "defaultSize": { "width": 320, "height": 520 },
+      "minSize": { "width": 240, "height": 140 }
+    }
+  ]
+}

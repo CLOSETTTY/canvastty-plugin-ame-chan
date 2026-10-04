@@ -1,0 +1,21 @@
+name: macOS transparent-card smoke test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Check signed macOS CanvasTTY copy
+        run: PYTHONDONTWRITEBYTECODE=1 python3 tests/mac-transparent-card.py

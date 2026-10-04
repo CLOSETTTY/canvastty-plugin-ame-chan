@@ -1,0 +1,29 @@
+name: Linux plugin smoke test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - name: Install test browser
+        working-directory: tests
+        run: |
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Check package and run browser smoke test
+        working-directory: tests
+        run: node linux-smoke.cjs
+      - name: Check Linux transparent-card installation
+        run: PYTHONDONTWRITEBYTECODE=1 python3 tests/linux-transparent-card.py
