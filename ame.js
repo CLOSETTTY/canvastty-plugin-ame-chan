@@ -136,9 +136,6 @@
     document.addEventListener('pointerdown', (event) => {
       if (!toggle.contains(event.target) && !menu.contains(event.target)) close();
     });
-    document.addEventListener('focusin', (event) => {
-      if (!toggle.contains(event.target) && !menu.contains(event.target)) close();
-    });
   }
 
   const step = async (g, last) => {
