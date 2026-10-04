@@ -36,13 +36,16 @@ Ame-chan has an idle breathing loop and frame-by-frame actions. The transparent 
 
 ## 🚀 Install
 
+Once this repository is public, install it directly from its URL. CanvasTTY does not install from private repository URLs.
+
 1. Open **CanvasTTY → Settings → Plugins**.
-2. Paste https://github.com/CLOSETTTY/canvastty-plugin-ame-chan and install.
-3. Click **Open** on the Ame-chan plugin card.
+2. Paste https://github.com/CLOSETTTY/canvastty-plugin-ame-chan and choose **Inspect**.
+3. Review the manifest and permissions, then confirm **Install**.
+4. Click **Open** on the Ame-chan plugin card.
 
 Use the menu near the character's top-right corner to select an activity. Move and resize the plugin card on the canvas as usual.
 
-**Installing with Codex?** Send it the repository URL and ask: “Install Ame-chan in CanvasTTY and apply the transparent-card patch for my operating system. Follow INSTALL.md.” The agent needs access to your local CanvasTTY installation. If the repository is private, it also needs authorized repository access.
+**Installing with Codex?** Send it the public repository URL and ask: “Install Ame-chan in CanvasTTY and apply the transparent-card patch for my operating system. Follow INSTALL.md.” The agent needs access to your local CanvasTTY installation.
 
 ## 🫧 Transparent canvas card
 

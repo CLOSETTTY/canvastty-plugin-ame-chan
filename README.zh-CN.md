@@ -36,13 +36,16 @@ Ame-chan 在待机时会呼吸，动作以逐帧动画播放。透明背景让�
 
 ## 🚀 安装
 
+仓库公开后，可以直接通过链接安装插件。CanvasTTY 不支持从私有仓库链接安装。
+
 1. 打开 **CanvasTTY → Settings → Plugins**。
-2. 粘贴 https://github.com/CLOSETTTY/canvastty-plugin-ame-chan 并安装。
-3. 在 Ame-chan 插件卡片上点击 **Open**。
+2. 粘贴 https://github.com/CLOSETTTY/canvastty-plugin-ame-chan 并点击 **Inspect**。
+3. 检查清单和权限，然后确认 **Install**。
+4. 在 Ame-chan 插件卡片上点击 **Open**。
 
 在角色右上方的菜单中选择动作。插件卡片可以在画布上移动和调整大小。
 
-**通过 Codex 安装？** 将仓库链接发送给助手，并要求：“在 CanvasTTY 中安装 Ame-chan，按 INSTALL.md 为我的操作系统应用透明卡片补丁。” 助手需要访问本机 CanvasTTY；仓库为私有时，还需要仓库访问权限。
+**通过 Codex 安装？** 将公开仓库链接发送给助手，并要求：“在 CanvasTTY 中安装 Ame-chan，按 INSTALL.md 为我的操作系统应用透明卡片补丁。” 助手需要访问本机 CanvasTTY。
 
 ## 🫧 透明卡片
 

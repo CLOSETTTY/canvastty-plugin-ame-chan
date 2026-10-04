@@ -44,7 +44,8 @@ def main():
         package["RELEASE.txt"] = (
             f"Ame-chan for CanvasTTY {VERSION}\nRuntime commit: {commit}\n"
             f"Package: {platform}\n\n"
-            "Install the plugin through CanvasTTY Settings > Plugins using:\n"
+            "CanvasTTY installs from public GitHub repositories only.\n"
+            "When public, install through Settings > Plugins > Inspect using:\n"
             "https://github.com/CLOSETTTY/canvastty-plugin-ame-chan\n\n"
             "CanvasTTY does not import these ZIP packages directly.\n"
             "Platform packages include the local transparent-card patch.\n"
