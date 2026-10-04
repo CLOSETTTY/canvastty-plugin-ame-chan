@@ -1,4 +1,4 @@
-https://github.com/user-attachments/assets/2b44939e-363b-4084-824a-5894a93d635b
+https://github.com/user-attachments/assets/6900ae77-6dd2-4d47-8ac7-bf090f33ad92
 
 <p align="center">
   <a href="README.md"><strong>English</strong></a> ·
