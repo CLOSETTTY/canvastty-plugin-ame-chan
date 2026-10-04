@@ -135,6 +135,15 @@ async function main() {
     assert(painted, 'Sprite remained visually empty');
     await page.screenshot({ path: path.join(output, `${mode}-idle.png`) });
     await card.hover();
+    await frame.locator('#mode-toggle').evaluate((button) => {
+      window.pickerTrace = [];
+      for (const type of ['pointerdown', 'pointerup', 'click', 'focusin']) {
+        document.addEventListener(type, (event) => {
+          window.pickerTrace.push({ type, target: event.target.id || event.target.className,
+            expanded: button.getAttribute('aria-expanded') });
+        });
+      }
+    });
     await frame.locator('#mode-toggle').click();
     await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
     const pickerState = await frame.locator('#mode-menu').evaluate((element) => ({
@@ -144,7 +153,8 @@ async function main() {
       opacity: getComputedStyle(element).opacity,
       bounds: element.getBoundingClientRect().toJSON(),
     }));
-    console.log(`Picker after opening: ${JSON.stringify(pickerState)}`);
+    const pickerTrace = await frame.locator('#mode-toggle').evaluate(() => window.pickerTrace);
+    console.log(`Picker after opening: ${JSON.stringify(pickerState)} events=${JSON.stringify(pickerTrace)}`);
     await frame.locator('#mode-menu [data-mode="dance"]').click();
     assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
     const close = card.locator('.plugin-canvas-card__header > button');
