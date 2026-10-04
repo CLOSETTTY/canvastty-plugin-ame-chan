@@ -7,7 +7,7 @@ body{display:flex;align-items:flex-end;justify-content:center}
 /* The picker also works in a regular card without the optional host patch. */
 .pick{position:fixed;top:6px;right:46px;width:34px;height:34px;box-sizing:border-box;border:1px solid #ffffff2b;border-radius:10px;
   display:grid;place-items:center;color:#f5f3fa;background:#20222bcf;box-shadow:0 8px 22px #0005;
-  backdrop-filter:blur(12px);font:22px/1 sans-serif;cursor:pointer;opacity:0;transition:opacity .18s ease,background .18s ease}
+  font:22px/1 sans-serif;cursor:pointer;opacity:0;transition:opacity .18s ease,background .18s ease}
 .pick::before{content:"\2699"}
 body:hover .pick,.pick:focus-visible,.pick[aria-expanded="true"]{opacity:1}
 .pick:hover,.pick[aria-expanded="true"]{background:#30313de8}
@@ -15,11 +15,11 @@ body:hover .pick,.pick:focus-visible,.pick[aria-expanded="true"]{opacity:1}
 .pick-menu{position:fixed;top:47px;right:46px;width:min(216px,calc(100vw - 58px));max-height:min(358px,calc(100vh - 58px));
   box-sizing:border-box;padding:6px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#8a8392 transparent;
   border:1px solid #ffffff30;border-radius:15px;
-  background:#20212aec;box-shadow:0 16px 38px #0009;backdrop-filter:blur(18px);z-index:2;
-  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px) scale(.97);transform-origin:top right;
-  transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s}
-.pick-menu.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1);
-  transition:opacity .2s ease,transform .2s ease,visibility 0s}
+  background:#20212a;box-shadow:0 16px 38px #0009;z-index:2;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .2s ease,visibility 0s linear .2s}
+.pick-menu.is-open{opacity:1;visibility:visible;pointer-events:auto;
+  transition:opacity .2s ease,visibility 0s}
 .mode-option{display:flex;align-items:center;gap:10px;width:100%;min-height:34px;padding:7px 9px;border:0;border-radius:9px;
   background:transparent;color:#f4f4f7;text-align:left;font:600 13px/1.25 system-ui,sans-serif;cursor:pointer}
 .mode-option::before{content:"";flex:none;width:13px;height:13px;border:1px solid #a5a5af;border-radius:4px;background:#ffffff12}

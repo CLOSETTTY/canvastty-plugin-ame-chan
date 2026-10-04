@@ -48,11 +48,11 @@
   };
 
   const LABELS = {
-    all: 'Всё подряд', idle: 'Ожидание', dance: 'Танец', energy: 'Энергетик', smoke: 'Перекур',
-    laptop: 'Кодинг', selfie: 'Селфи', phone: 'Телефон', game: 'Игра', snack: 'Перекус',
-    music: 'Музыка', plush: 'Обнять игрушку', rainbow: 'Радуга', sleepy: 'Зевнуть', doze: 'Дремать',
-    look: 'Осмотреться', wavecam: 'Помахать в камеру', alert: 'Позвать', tuck: 'Поправить волосы',
-    wave: 'Помахать', sad: 'Грустить',
+    all: 'Всё подряд', idle: 'Отдыхает', dance: 'Танцует', energy: 'Пьёт энергетик', smoke: 'Курит',
+    laptop: 'Вайбкодит', selfie: 'Делает селфи', phone: 'Сидит в телефоне', game: 'Играет', snack: 'Перекусывает',
+    music: 'Слушает музыку', plush: 'Обнимает зайчика', rainbow: 'Радуга', sleepy: 'Зевает', doze: 'Дремлет',
+    look: 'Осматривается', wavecam: 'Машет в камеру', alert: 'Зовёт', tuck: 'Поправляет волосы',
+    wave: 'Машет', sad: 'Грустит',
   };
   // shuffle bag: every action plays once per round (dance twice), in random order, no repeats back to back
   const DECK = ['dance', 'dance', 'phone', 'selfie', 'look', 'energy', 'smoke', 'rainbow', 'wavecam',

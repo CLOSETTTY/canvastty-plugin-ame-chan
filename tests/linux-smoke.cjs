@@ -76,7 +76,7 @@ const server = http.createServer((request, response) => {
     const menu = frame.locator('#mode-menu');
     assert.equal(await frame.locator('#mode-toggle').getAttribute('aria-expanded'), 'true');
     assert((await menu.locator('.mode-option').allTextContents()).includes('Всё подряд'));
-    assert((await menu.locator('.mode-option').allTextContents()).includes('Танец'));
+    assert((await menu.locator('.mode-option').allTextContents()).includes('Танцует'));
     await menu.evaluate(async (element) => {
       for (let attempt = 0; attempt < 20; attempt++) {
         if (Number(getComputedStyle(element).opacity) > 0.95) return;
