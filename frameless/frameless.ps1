@@ -13,6 +13,7 @@ $asar = Join-Path $Resources 'app.asar'
 $backup = Join-Path $Resources 'app.asar.bak'
 $app = Join-Path $Resources 'app'
 $cssFile = Join-Path $PSScriptRoot 'frameless.css'
+$hostScript = Join-Path $PSScriptRoot 'ame-chan-host.js'
 $markerStart = '/* ame-chan-claude-frameless:start */'
 $markerEnd = '/* ame-chan-claude-frameless:end */'
 
@@ -81,7 +82,8 @@ function Expand-Asar([string]$Archive, [string]$Destination) {
 }
 
 function Add-FramelessCss {
-  $html = Get-Content -Raw -Encoding UTF8 (Join-Path $app 'out\renderer\index.html')
+  $htmlPath = Join-Path $app 'out\renderer\index.html'
+  $html = Get-Content -Raw -Encoding UTF8 $htmlPath
   if ($html -notmatch 'href="\./(assets/[^"]+\.css)"') { throw 'Renderer stylesheet not found in index.html.' }
   $target = Join-Path $app ('out\renderer\' + ($Matches[1] -replace '/', '\'))
   $current = [IO.File]::ReadAllText($target)
@@ -96,6 +98,16 @@ function Add-FramelessCss {
   } else {
     [IO.File]::AppendAllText($target, "`n$block`n")
   }
+  $scriptTag = '<script defer src="./assets/ame-chan-host.js"></script>'
+  if (-not $html.Contains($scriptTag)) {
+    if ($html.Contains('</body>')) {
+      $html = $html.Replace('</body>', "  $scriptTag`n</body>")
+    } else {
+      $html += $scriptTag
+    }
+    [IO.File]::WriteAllText($htmlPath, $html)
+  }
+  Copy-Item -LiteralPath $hostScript -Destination (Join-Path $app 'out\renderer\assets\ame-chan-host.js') -Force
 }
 
 Stop-CanvasTTY

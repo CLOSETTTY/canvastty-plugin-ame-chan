@@ -149,6 +149,7 @@ async function main() {
     await card.hover();
     await clickInFrame('#mode-toggle');
     await frame.locator('#mode-menu.is-open').waitFor();
+    await page.waitForFunction(() => document.querySelector('.plugin-canvas-card.ame-chan-menu-open'));
     await frame.locator('#mode-menu').evaluate(async (element) => {
       for (let i = 0; i < 20; i++) {
         if (Number(getComputedStyle(element).opacity) > 0.99) return;
@@ -159,6 +160,17 @@ async function main() {
     await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
     await clickInFrame('#mode-menu [data-mode="dance"]');
     assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
+    await page.waitForFunction(() => !document.querySelector('.plugin-canvas-card.ame-chan-menu-open'));
+    const beforeDrag = await card.boundingBox();
+    const startX = beforeDrag.x + beforeDrag.width / 2;
+    const startY = beforeDrag.y + beforeDrag.height / 2;
+    await page.mouse.move(startX, startY);
+    await page.mouse.down();
+    await page.mouse.move(startX + 40, startY + 28, { steps: 5 });
+    await page.mouse.up();
+    const afterDrag = await card.boundingBox();
+    assert(Math.hypot(afterDrag.x - beforeDrag.x, afterDrag.y - beforeDrag.y) > 10,
+      'Dragging the character did not move the CanvasTTY card');
     const close = card.locator('.plugin-canvas-card__header > button');
     await close.hover();
     await close.evaluate(async (element) => {

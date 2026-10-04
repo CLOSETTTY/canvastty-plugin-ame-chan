@@ -22,6 +22,8 @@ from pathlib import Path
 START = "/* ame-chan-claude-frameless:start */"
 END = "/* ame-chan-claude-frameless:end */"
 CSS = Path(__file__).with_name("frameless.css")
+HOST_SCRIPT = Path(__file__).with_name("ame-chan-host.js")
+SCRIPT_TAG = '<script defer src="./assets/ame-chan-host.js"></script>'
 LAUNCHER_MARKER = "# ame-chan-canvastty-appimage-launcher"
 
 
@@ -51,6 +53,12 @@ def add_css(app, require_existing=False):
     else:
         updated = original + "\n" + block + "\n"
     target.write_text(updated, encoding="utf-8")
+    html_file = app / "out/renderer/index.html"
+    html = html_file.read_text(encoding="utf-8")
+    if SCRIPT_TAG not in html:
+        html = html.replace("</body>", f"  {SCRIPT_TAG}\n</body>") if "</body>" in html else html + SCRIPT_TAG
+        html_file.write_text(html, encoding="utf-8")
+    (app / "out/renderer/assets/ame-chan-host.js").write_bytes(HOST_SCRIPT.read_bytes())
 
 
 def unpack_asar(archive, destination):

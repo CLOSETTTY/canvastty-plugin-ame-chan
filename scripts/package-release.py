@@ -11,16 +11,16 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 OUTPUT = ROOT.parent / f"ame-chan-release-{VERSION}"
 TAG = f"v{VERSION}"
 RUNTIME = ["canvastty.plugin.json", "index.html", "ame.js", "ame-frames.js"]
 RUNTIME += [f"ame-{i}.webp" for i in range(6)]
 DOCS = ["README.md", "README.ru.md", "README.zh-CN.md", "INSTALL.md", "LICENSE", "NOTICE.md", "SECURITY.md"]
 PATCHES = {
-    "windows-x64": ["frameless.css", "frameless.ps1", "install-frameless.cmd", "uninstall-frameless.cmd"],
-    "linux-x86_64": ["frameless.css", "linux-transparent-card.py"],
-    "mac-arm64": ["frameless.css", "linux-transparent-card.py", "mac-transparent-card.py"],
+    "windows-x64": ["frameless.css", "ame-chan-host.js", "frameless.ps1", "install-frameless.cmd", "uninstall-frameless.cmd"],
+    "linux-x86_64": ["frameless.css", "ame-chan-host.js", "linux-transparent-card.py"],
+    "mac-arm64": ["frameless.css", "ame-chan-host.js", "linux-transparent-card.py", "mac-transparent-card.py"],
 }
 
 

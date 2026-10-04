@@ -88,11 +88,13 @@
     const close = (restoreFocus = false) => {
       menu.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
+      parent.postMessage({ type: 'ame-chan-picker', open: false }, '*');
       if (restoreFocus) toggle.focus();
     };
     const open = () => {
       menu.classList.add('is-open');
       toggle.setAttribute('aria-expanded', 'true');
+      parent.postMessage({ type: 'ame-chan-picker', open: true }, '*');
       menu.querySelector('[aria-checked="true"]').focus();
     };
     for (const name of names) {
@@ -135,6 +137,9 @@
     });
     document.addEventListener('pointerdown', (event) => {
       if (!toggle.contains(event.target) && !menu.contains(event.target)) close();
+    });
+    window.addEventListener('message', (event) => {
+      if (event.source === parent && event.data?.type === 'ame-chan-picker' && event.data.open === false) close();
     });
   }
 
