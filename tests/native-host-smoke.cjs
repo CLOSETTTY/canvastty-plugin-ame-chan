@@ -136,6 +136,15 @@ async function main() {
     await page.screenshot({ path: path.join(output, `${mode}-idle.png`) });
     await card.hover();
     await frame.locator('#mode-toggle').click();
+    await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
+    const pickerState = await frame.locator('#mode-menu').evaluate((element) => ({
+      className: element.className,
+      expanded: document.getElementById('mode-toggle').getAttribute('aria-expanded'),
+      visibility: getComputedStyle(element).visibility,
+      opacity: getComputedStyle(element).opacity,
+      bounds: element.getBoundingClientRect().toJSON(),
+    }));
+    console.log(`Picker after opening: ${JSON.stringify(pickerState)}`);
     await frame.locator('#mode-menu [data-mode="dance"]').click();
     assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
     const close = card.locator('.plugin-canvas-card__header > button');
