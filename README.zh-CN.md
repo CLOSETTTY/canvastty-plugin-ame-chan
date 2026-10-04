@@ -34,9 +34,19 @@ https://github.com/user-attachments/assets/6900ae77-6dd2-4d47-8ac7-bf090f33ad92
 
 Ame-chan 在待机时会呼吸，动作以逐帧动画播放。透明背景让角色自然地显示在画布上。可以循环播放单个动作，也可以选择 **All actions** 随机轮播。
 
+## 🛠️ 技术栈
+
+| 部分 | 技术 |
+| --- | --- |
+| 插件 | HTML、CSS、原生 JavaScript 和 Canvas 2D API |
+| 动画素材 | WebP 精灵图；帧序列和播放时长由 JavaScript 定义 |
+| 透明卡片补丁 | CSS；Windows 使用 PowerShell 和 Batch，Linux 与 macOS 使用 Python 3 |
+
+这是静态的 CanvasTTY 画布应用。插件无需框架、构建步骤或额外权限。
+
 ## 🚀 安装
 
-仓库公开后，可以直接通过链接安装插件。CanvasTTY 不支持从私有仓库链接安装。
+可直接通过此公开仓库的链接安装插件。CanvasTTY 不支持从私有仓库链接安装。
 
 1. 打开 **CanvasTTY → Settings → Plugins**。
 2. 粘贴 https://github.com/CLOSETTTY/canvastty-plugin-ame-chan 并点击 **Inspect**。

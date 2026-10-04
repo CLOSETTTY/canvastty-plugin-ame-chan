@@ -34,9 +34,19 @@ An animated pixel character for the [CanvasTTY](https://github.com/howdeploy/Can
 
 Ame-chan has an idle breathing loop and frame-by-frame actions. The transparent background lets her sit directly on your canvas. Choose one action to loop it, or use **All actions** for a shuffled sequence.
 
+## 🛠️ Tech stack
+
+| Part | Technology |
+| --- | --- |
+| Plugin | HTML, CSS, vanilla JavaScript, and the Canvas 2D API |
+| Animation assets | WebP sprite sheets with frame and timing data in JavaScript |
+| Transparent-card patch | CSS; PowerShell and Batch on Windows, Python 3 on Linux and macOS |
+
+The plugin is a static CanvasTTY canvas app. It needs no framework, build step, or runtime plugin permissions.
+
 ## 🚀 Install
 
-Once this repository is public, install it directly from its URL. CanvasTTY does not install from private repository URLs.
+Install directly from this public repository's URL. CanvasTTY does not install from private repository URLs.
 
 1. Open **CanvasTTY → Settings → Plugins**.
 2. Paste https://github.com/CLOSETTTY/canvastty-plugin-ame-chan and choose **Inspect**.

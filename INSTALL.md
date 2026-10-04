@@ -1,6 +1,6 @@
 # 🚀 Install Ame-chan with a local AI agent
 
-After the repository is public, give Codex or another agent this repository URL and the following task:
+Give Codex or another agent this public repository URL and the following task:
 
 > Install Ame-chan in CanvasTTY and apply the transparent-card patch for my
 > operating system. Follow INSTALL.md. Preserve my existing CanvasTTY settings
@@ -8,8 +8,8 @@ After the repository is public, give Codex or another agent this repository URL 
 
 ## Complete installation
 
-CanvasTTY installs directly from a public GitHub repository URL. Wait until this
-repository is public; release ZIP files cannot be imported directly by CanvasTTY.
+CanvasTTY installs directly from a public GitHub repository URL. Release ZIP
+files cannot be imported directly by CanvasTTY.
 
 1. Identify the operating system and existing CanvasTTY installation.
 2. Read the manifest and the platform instructions in [README.md](README.md).
