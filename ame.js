@@ -48,11 +48,11 @@
   };
 
   const LABELS = {
-    all: 'All actions', idle: 'Idle', dance: 'Dance', energy: 'Energy drink', smoke: 'Smoke',
-    laptop: 'Code', selfie: 'Selfie', phone: 'Phone', game: 'Game', snack: 'Snack',
-    music: 'Music', plush: 'Hug a plush', rainbow: 'Rainbow', sleepy: 'Yawn', doze: 'Doze',
-    look: 'Look around', wavecam: 'Wave at camera', alert: 'Call out', tuck: 'Fix hair', wave: 'Wave',
-    sad: 'Sad',
+    all: 'Всё подряд', idle: 'Ожидание', dance: 'Танец', energy: 'Энергетик', smoke: 'Перекур',
+    laptop: 'Кодинг', selfie: 'Селфи', phone: 'Телефон', game: 'Игра', snack: 'Перекус',
+    music: 'Музыка', plush: 'Обнять игрушку', rainbow: 'Радуга', sleepy: 'Зевнуть', doze: 'Дремать',
+    look: 'Осмотреться', wavecam: 'Помахать в камеру', alert: 'Позвать', tuck: 'Поправить волосы',
+    wave: 'Помахать', sad: 'Грустить',
   };
   // shuffle bag: every action plays once per round (dance twice), in random order, no repeats back to back
   const DECK = ['dance', 'dance', 'phone', 'selfie', 'look', 'energy', 'smoke', 'rainbow', 'wavecam',
@@ -81,11 +81,64 @@
 
   // menu: "all", "idle" and every action that has frames
   let mode = 'all';
-  const select = document.getElementById('mode');
-  if (select) {
+  const toggle = document.getElementById('mode-toggle');
+  const menu = document.getElementById('mode-menu');
+  if (toggle && menu) {
     const names = ['all', 'idle', ...new Set(DECK.filter(has))];
-    for (const n of names) select.add(new Option(LABELS[n] || n, n));
-    select.addEventListener('change', () => { mode = select.value; gen++; });
+    const close = (restoreFocus = false) => {
+      menu.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) toggle.focus();
+    };
+    const open = () => {
+      menu.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      menu.querySelector('[aria-checked="true"]').focus();
+    };
+    for (const name of names) {
+      const option = document.createElement('button');
+      option.type = 'button';
+      option.className = 'mode-option';
+      option.dataset.mode = name;
+      option.setAttribute('role', 'menuitemradio');
+      option.setAttribute('aria-checked', String(name === mode));
+      option.textContent = LABELS[name] || name;
+      option.addEventListener('click', () => {
+        if (mode !== name) { mode = name; gen++; }
+        menu.querySelectorAll('.mode-option').forEach((item) =>
+          item.setAttribute('aria-checked', String(item === option)));
+        close(true);
+      });
+      menu.appendChild(option);
+    }
+    toggle.addEventListener('click', () => {
+      if (menu.classList.contains('is-open')) close(); else open();
+    });
+    toggle.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        open();
+      }
+    });
+    menu.addEventListener('keydown', (event) => {
+      const options = [...menu.querySelectorAll('.mode-option')];
+      const current = options.indexOf(document.activeElement);
+      let next = current;
+      if (event.key === 'Escape') { event.preventDefault(); close(true); return; }
+      if (event.key === 'ArrowDown') next = (current + 1) % options.length;
+      else if (event.key === 'ArrowUp') next = (current - 1 + options.length) % options.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = options.length - 1;
+      else return;
+      event.preventDefault();
+      options[next].focus();
+    });
+    document.addEventListener('pointerdown', (event) => {
+      if (!toggle.contains(event.target) && !menu.contains(event.target)) close();
+    });
+    document.addEventListener('focusin', (event) => {
+      if (!toggle.contains(event.target) && !menu.contains(event.target)) close();
+    });
   }
 
   const step = async (g, last) => {

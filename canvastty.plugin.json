@@ -2,7 +2,7 @@
   "apiVersion": 1,
   "id": "ame-chan-claude",
   "name": "Ame-chan",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Living pixel Ame-chan on your CanvasTTY canvas: idles, breathes, dances, scrolls her phone, sips energy drinks and more.",
   "description.en": "Living pixel Ame-chan on your CanvasTTY canvas: idles, breathes, dances, scrolls her phone, sips energy drinks and more.",
   "permissions": [],

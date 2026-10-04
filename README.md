@@ -11,7 +11,7 @@ https://github.com/user-attachments/assets/6900ae77-6dd2-4d47-8ac7-bf090f33ad92
 <p align="center">
   <strong>Your animated pixel companion on the canvas.</strong><br>
   ✨ 19 activities · 🎲 Shuffled actions · 🪟 Windows · 🐧 Linux · 🍎 macOS<br>
-  <a href="https://github.com/CLOSETTTY/canvastty-plugin-ame-chan/releases/tag/v1.0.0">Release 1.0</a> ·
+  <a href="https://github.com/CLOSETTTY/canvastty-plugin-ame-chan/releases/latest">Latest release</a> ·
   <a href="INSTALL.md">Install with an AI agent</a> ·
   <a href="NOTICE.md">Artwork provenance</a>
 </p>
@@ -27,12 +27,12 @@ An animated pixel character for the [CanvasTTY](https://github.com/howdeploy/Can
 | Detail | Description |
 | --- | --- |
 | Type | CanvasTTY canvas app |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Animation | 19 selectable activities plus an **All actions** mode |
 | Permissions | None |
 | Platform | CanvasTTY on Windows, Linux, and Apple Silicon macOS; transparent-card patch for each |
 
-Ame-chan has an idle breathing loop and frame-by-frame actions. The transparent background lets her sit directly on your canvas. Choose one action to loop it, or use **All actions** for a shuffled sequence.
+Ame-chan has an idle breathing loop and frame-by-frame actions. The transparent background lets her sit directly on your canvas. Choose one action to loop it, or use **Всё подряд** (All actions) for a shuffled sequence. The picker labels are in Russian.
 
 ## 🛠️ Tech stack
 

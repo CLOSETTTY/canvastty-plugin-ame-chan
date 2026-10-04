@@ -11,8 +11,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT.parent / "ame-chan-release-1.0.0"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
+OUTPUT = ROOT.parent / f"ame-chan-release-{VERSION}"
 TAG = f"v{VERSION}"
 RUNTIME = ["canvastty.plugin.json", "index.html", "ame.js", "ame-frames.js"]
 RUNTIME += [f"ame-{i}.webp" for i in range(6)]

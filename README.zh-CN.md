@@ -11,7 +11,7 @@ https://github.com/user-attachments/assets/6900ae77-6dd2-4d47-8ac7-bf090f33ad92
 <p align="center">
   <strong>画布上的像素动画伙伴。</strong><br>
   ✨ 19 个动作 · 🎲 随机轮播 · 🪟 Windows · 🐧 Linux · 🍎 macOS<br>
-  <a href="https://github.com/CLOSETTTY/canvastty-plugin-ame-chan/releases/tag/v1.0.0">1.0 版本</a> ·
+  <a href="https://github.com/CLOSETTTY/canvastty-plugin-ame-chan/releases/latest">最新版本</a> ·
   <a href="INSTALL.md">通过 AI 助手安装</a> ·
   <a href="NOTICE.md">图片来源</a>
 </p>
@@ -27,12 +27,12 @@ https://github.com/user-attachments/assets/6900ae77-6dd2-4d47-8ac7-bf090f33ad92
 | 项目 | 内容 |
 | --- | --- |
 | 类型 | CanvasTTY 画布应用 |
-| 版本 | 1.0.0 |
+| 版本 | 1.0.1 |
 | 动画 | 19 个可选动作，以及 **All actions** 模式 |
 | 权限 | 无需额外权限 |
 | 平台 | Windows、Linux 和 Apple Silicon macOS 上的 CanvasTTY；各平台均有透明卡片补丁 |
 
-Ame-chan 在待机时会呼吸，动作以逐帧动画播放。透明背景让角色自然地显示在画布上。可以循环播放单个动作，也可以选择 **All actions** 随机轮播。
+Ame-chan 在待机时会呼吸，动作以逐帧动画播放。透明背景让角色自然地显示在画布上。可以循环播放单个动作，也可以选择 **Всё подряд**（全部动作）随机轮播。菜单中的动作名称使用俄语。
 
 ## 🛠️ 技术栈
 

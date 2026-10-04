@@ -42,7 +42,7 @@ const server = http.createServer((request, response) => {
 
 (async () => {
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, channel: process.env.PLAYWRIGHT_CHANNEL });
   try {
     const page = await browser.newPage();
     const errors = [];
@@ -53,7 +53,7 @@ const server = http.createServer((request, response) => {
     await page.goto(`http://127.0.0.1:${server.address().port}/harness`);
     const frame = page.frameLocator('iframe');
     await frame.locator('canvas').waitFor();
-    await frame.locator('select').waitFor();
+    await frame.locator('#mode-toggle').waitFor();
     const sprite = frame.locator('canvas');
     await sprite.evaluate((canvas) => { canvas.style.opacity = '0'; });
     const blank = await sprite.screenshot();
@@ -64,10 +64,6 @@ const server = http.createServer((request, response) => {
       await page.waitForTimeout(250);
     }
     assert(painted, 'The sprite canvas stayed visually empty');
-    const options = await frame.locator('select option').allTextContents();
-    assert(options.includes('Dance') && options.includes('All actions'));
-    await frame.locator('select').selectOption('dance');
-    assert.equal(await frame.locator('select').inputValue(), 'dance');
     await frame.locator('body').hover();
     await frame.locator('.pick').evaluate(async (element) => {
       for (let attempt = 0; attempt < 20; attempt++) {
@@ -76,6 +72,24 @@ const server = http.createServer((request, response) => {
       }
       throw new Error('The animation picker did not appear on hover');
     });
+    await frame.locator('#mode-toggle').click();
+    const menu = frame.locator('#mode-menu');
+    assert.equal(await frame.locator('#mode-toggle').getAttribute('aria-expanded'), 'true');
+    assert((await menu.locator('.mode-option').allTextContents()).includes('Всё подряд'));
+    assert((await menu.locator('.mode-option').allTextContents()).includes('Танец'));
+    await menu.evaluate(async (element) => {
+      for (let attempt = 0; attempt < 20; attempt++) {
+        if (Number(getComputedStyle(element).opacity) > 0.95) return;
+        await new Promise((resolve) => setTimeout(resolve, 25));
+      }
+      throw new Error('The action menu did not finish opening');
+    });
+    await menu.locator('[data-mode="dance"]').click();
+    assert.equal(await menu.locator('[data-mode="dance"]').getAttribute('aria-checked'), 'true');
+    assert.equal(await frame.locator('#mode-toggle').getAttribute('aria-expanded'), 'false');
+    await frame.locator('#mode-toggle').click();
+    await menu.locator('[data-mode="dance"]').press('Escape');
+    assert.equal(await frame.locator('#mode-toggle').getAttribute('aria-expanded'), 'false');
     assert.deepEqual(errors, []);
     console.log(`Linux Chromium smoke test passed; ${files.length} files, ${packageBytes} bytes`);
   } finally {

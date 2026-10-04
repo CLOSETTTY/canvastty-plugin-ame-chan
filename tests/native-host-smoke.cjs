@@ -135,8 +135,9 @@ async function main() {
     assert(painted, 'Sprite remained visually empty');
     await page.screenshot({ path: path.join(output, `${mode}-idle.png`) });
     await card.hover();
-    await frame.locator('select').selectOption('dance');
-    assert.equal(await frame.locator('select').inputValue(), 'dance');
+    await frame.locator('#mode-toggle').click();
+    await frame.locator('#mode-menu [data-mode="dance"]').click();
+    assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
     const close = card.locator('.plugin-canvas-card__header > button');
     await close.evaluate(async (element) => {
       for (let i = 0; i < 20; i++) {
