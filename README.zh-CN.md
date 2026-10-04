@@ -27,7 +27,7 @@ https://github.com/user-attachments/assets/6900ae77-6dd2-4d47-8ac7-bf090f33ad92
 | 项目 | 内容 |
 | --- | --- |
 | 类型 | CanvasTTY 画布应用 |
-| 版本 | 1.0.1 |
+| 版本 | 1.0.2 |
 | 动画 | 19 个可选动作，以及 **All actions** 模式 |
 | 权限 | 无需额外权限 |
 | 平台 | Windows、Linux 和 Apple Silicon macOS 上的 CanvasTTY；各平台均有透明卡片补丁 |

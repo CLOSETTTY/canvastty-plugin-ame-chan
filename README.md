@@ -27,7 +27,7 @@ An animated pixel character for the [CanvasTTY](https://github.com/howdeploy/Can
 | Detail | Description |
 | --- | --- |
 | Type | CanvasTTY canvas app |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Animation | 19 selectable activities plus an **All actions** mode |
 | Permissions | None |
 | Platform | CanvasTTY on Windows, Linux, and Apple Silicon macOS; transparent-card patch for each |
