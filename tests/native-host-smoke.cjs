@@ -153,11 +153,24 @@ async function main() {
       }
     });
     const toggleBox = await frame.locator('#mode-toggle').boundingBox();
+    const cardLayers = await card.evaluate((element) => {
+      const layers = [];
+      for (let node = element; node && layers.length < 7; node = node.parentElement) {
+        const style = getComputedStyle(node);
+        layers.push({ className: node.className, pointerEvents: style.pointerEvents,
+          visibility: style.visibility, zIndex: style.zIndex, bounds: node.getBoundingClientRect().toJSON() });
+      }
+      const iframe = element.querySelector('iframe');
+      const frameStyle = getComputedStyle(iframe);
+      layers.unshift({ className: iframe.className, pointerEvents: frameStyle.pointerEvents,
+        visibility: frameStyle.visibility, zIndex: frameStyle.zIndex, bounds: iframe.getBoundingClientRect().toJSON() });
+      return layers;
+    });
     const hitTest = await page.evaluate(({ x, y }) =>
       document.elementsFromPoint(x, y).slice(0, 5).map((element) =>
         `${element.tagName}.${String(element.className)}`),
     { x: toggleBox.x + toggleBox.width / 2, y: toggleBox.y + toggleBox.height / 2 });
-    console.log(`Picker hit test: ${JSON.stringify({ toggleBox, hitTest })}`);
+    console.log(`Picker hit test: ${JSON.stringify({ toggleBox, hitTest, cardLayers })}`);
     await frame.locator('#mode-toggle').click();
     await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
     const pickerState = await frame.locator('#mode-menu').evaluate((element) => ({
