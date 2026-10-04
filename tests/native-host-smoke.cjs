@@ -120,6 +120,8 @@ async function main() {
     assert.equal(style.shadow, 'none');
     assert.equal(style.border, '0px');
     const frame = card.frameLocator('iframe');
+    // CDP iframe locator clicks ignore the canvas camera scale; map local
+    // viewport coordinates through the rendered iframe instead.
     const clickInFrame = async (selector) => {
       const iframe = await card.locator('iframe').evaluate((element) => element.getBoundingClientRect().toJSON());
       const target = await frame.locator(selector).evaluate((element) => {
@@ -145,58 +147,20 @@ async function main() {
     assert(painted, 'Sprite remained visually empty');
     await page.screenshot({ path: path.join(output, `${mode}-idle.png`) });
     await card.hover();
-    await frame.locator('#mode-toggle').evaluate((button) => {
-      window.pickerTrace = [];
-      for (const type of ['pointerdown', 'pointerup', 'click', 'focusin']) {
-        document.addEventListener(type, (event) => {
-          window.pickerTrace.push({ type, target: event.target.id || event.target.className,
-            expanded: button.getAttribute('aria-expanded') });
-        });
-      }
-    });
-    await page.evaluate(() => {
-      window.pickerParentTrace = [];
-      for (const type of ['pointerdown', 'click']) {
-        document.addEventListener(type, (event) => {
-          window.pickerParentTrace.push({ type, target: String(event.target.className || event.target.tagName) });
-        }, true);
-      }
-    });
-    const toggleBox = await frame.locator('#mode-toggle').boundingBox();
-    const cardLayers = await card.evaluate((element) => {
-      const layers = [];
-      for (let node = element; node && layers.length < 7; node = node.parentElement) {
-        const style = getComputedStyle(node);
-        layers.push({ className: node.className, pointerEvents: style.pointerEvents,
-          visibility: style.visibility, zIndex: style.zIndex, bounds: node.getBoundingClientRect().toJSON() });
-      }
-      const iframe = element.querySelector('iframe');
-      const frameStyle = getComputedStyle(iframe);
-      layers.unshift({ className: iframe.className, pointerEvents: frameStyle.pointerEvents,
-        visibility: frameStyle.visibility, zIndex: frameStyle.zIndex, bounds: iframe.getBoundingClientRect().toJSON() });
-      return layers;
-    });
-    const hitTest = await page.evaluate(({ x, y }) =>
-      document.elementsFromPoint(x, y).slice(0, 5).map((element) =>
-        `${element.tagName}.${String(element.className)}`),
-    { x: toggleBox.x + toggleBox.width / 2, y: toggleBox.y + toggleBox.height / 2 });
-    console.log(`Picker hit test: ${JSON.stringify({ toggleBox, hitTest, cardLayers })}`);
     await clickInFrame('#mode-toggle');
-    await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
-    const pickerState = await frame.locator('#mode-menu').evaluate((element) => ({
-      className: element.className,
-      expanded: document.getElementById('mode-toggle').getAttribute('aria-expanded'),
-      visibility: getComputedStyle(element).visibility,
-      opacity: getComputedStyle(element).opacity,
-      bounds: element.getBoundingClientRect().toJSON(),
-    }));
-    const pickerTrace = await frame.locator('#mode-toggle').evaluate(() => window.pickerTrace);
-    const parentTrace = await page.evaluate(() => window.pickerParentTrace);
-    console.log(`Picker after opening: ${JSON.stringify(pickerState)} frame=${JSON.stringify(pickerTrace)} parent=${JSON.stringify(parentTrace)}`);
     await frame.locator('#mode-menu.is-open').waitFor();
+    await frame.locator('#mode-menu').evaluate(async (element) => {
+      for (let i = 0; i < 20; i++) {
+        if (Number(getComputedStyle(element).opacity) > 0.99) return;
+        await new Promise((resolve) => setTimeout(resolve, 25));
+      }
+      throw new Error('Action menu did not finish opening');
+    });
+    await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
     await clickInFrame('#mode-menu [data-mode="dance"]');
     assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
     const close = card.locator('.plugin-canvas-card__header > button');
+    await close.hover();
     await close.evaluate(async (element) => {
       for (let i = 0; i < 20; i++) {
         if (Number(getComputedStyle(element).opacity) > 0.95) return;
