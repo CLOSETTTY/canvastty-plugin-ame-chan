@@ -120,6 +120,16 @@ async function main() {
     assert.equal(style.shadow, 'none');
     assert.equal(style.border, '0px');
     const frame = card.frameLocator('iframe');
+    const clickInFrame = async (selector) => {
+      const iframe = await card.locator('iframe').evaluate((element) => element.getBoundingClientRect().toJSON());
+      const target = await frame.locator(selector).evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        return { x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height / 2,
+          viewportWidth: innerWidth, viewportHeight: innerHeight };
+      });
+      await page.mouse.click(iframe.x + target.x * iframe.width / target.viewportWidth,
+        iframe.y + target.y * iframe.height / target.viewportHeight);
+    };
     const canvas = frame.locator('canvas');
     await canvas.waitFor({ timeout: 30000 });
     // The opaque-origin plugin sandbox intentionally taints its canvas.
@@ -171,7 +181,7 @@ async function main() {
         `${element.tagName}.${String(element.className)}`),
     { x: toggleBox.x + toggleBox.width / 2, y: toggleBox.y + toggleBox.height / 2 });
     console.log(`Picker hit test: ${JSON.stringify({ toggleBox, hitTest, cardLayers })}`);
-    await frame.locator('#mode-toggle').click();
+    await clickInFrame('#mode-toggle');
     await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
     const pickerState = await frame.locator('#mode-menu').evaluate((element) => ({
       className: element.className,
@@ -183,7 +193,8 @@ async function main() {
     const pickerTrace = await frame.locator('#mode-toggle').evaluate(() => window.pickerTrace);
     const parentTrace = await page.evaluate(() => window.pickerParentTrace);
     console.log(`Picker after opening: ${JSON.stringify(pickerState)} frame=${JSON.stringify(pickerTrace)} parent=${JSON.stringify(parentTrace)}`);
-    await frame.locator('#mode-menu [data-mode="dance"]').click();
+    await frame.locator('#mode-menu.is-open').waitFor();
+    await clickInFrame('#mode-menu [data-mode="dance"]');
     assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
     const close = card.locator('.plugin-canvas-card__header > button');
     await close.evaluate(async (element) => {
