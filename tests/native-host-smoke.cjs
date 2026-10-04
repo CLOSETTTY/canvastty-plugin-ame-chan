@@ -144,6 +144,20 @@ async function main() {
         });
       }
     });
+    await page.evaluate(() => {
+      window.pickerParentTrace = [];
+      for (const type of ['pointerdown', 'click']) {
+        document.addEventListener(type, (event) => {
+          window.pickerParentTrace.push({ type, target: String(event.target.className || event.target.tagName) });
+        }, true);
+      }
+    });
+    const toggleBox = await frame.locator('#mode-toggle').boundingBox();
+    const hitTest = await page.evaluate(({ x, y }) =>
+      document.elementsFromPoint(x, y).slice(0, 5).map((element) =>
+        `${element.tagName}.${String(element.className)}`),
+    { x: toggleBox.x + toggleBox.width / 2, y: toggleBox.y + toggleBox.height / 2 });
+    console.log(`Picker hit test: ${JSON.stringify({ toggleBox, hitTest })}`);
     await frame.locator('#mode-toggle').click();
     await page.screenshot({ path: path.join(output, `${mode}-menu.png`) });
     const pickerState = await frame.locator('#mode-menu').evaluate((element) => ({
@@ -154,7 +168,8 @@ async function main() {
       bounds: element.getBoundingClientRect().toJSON(),
     }));
     const pickerTrace = await frame.locator('#mode-toggle').evaluate(() => window.pickerTrace);
-    console.log(`Picker after opening: ${JSON.stringify(pickerState)} events=${JSON.stringify(pickerTrace)}`);
+    const parentTrace = await page.evaluate(() => window.pickerParentTrace);
+    console.log(`Picker after opening: ${JSON.stringify(pickerState)} frame=${JSON.stringify(pickerTrace)} parent=${JSON.stringify(parentTrace)}`);
     await frame.locator('#mode-menu [data-mode="dance"]').click();
     assert.equal(await frame.locator('#mode-menu [data-mode="dance"]').getAttribute('aria-checked'), 'true');
     const close = card.locator('.plugin-canvas-card__header > button');
